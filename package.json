@@ -1,7 +1,7 @@
 {
   "name": "gulp-rejs",
-  "version": "0.0.0",
-  "description": "Gulp support for ReJS, a tool for concatenating JavaScript files based on their dependencies.",
+  "version": "0.0.1",
+  "description": "Gulp support for ReJS, a tool for concatenating JavaScript files based on the dependencies between them.",
   "main": "index.js",
   "scripts": {
     "test": "mocha"

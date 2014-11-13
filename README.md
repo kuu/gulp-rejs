@@ -1,7 +1,7 @@
 gulp-rejs
 =========
 
-Gulp support for [ReJS](https://github.com/Moncader/rejs), a tool for concatenating JavaScript files based on their dependencies.
+Gulp support for [ReJS](https://github.com/Moncader/rejs), a tool for concatenating JavaScript files based on the dependencies between them.
 *Issues with the output should be reported on the [ReJS issue tracker] (https://github.com/Moncader/rejs/issues).*
 
 ##Install
@@ -16,7 +16,6 @@ var rejs = require('gulp-rejs');
 
 gulp.task('default', function () {
     return gulp.src('src/**/*.js')
-        .pipe(traceur())
         .pipe(rejs('output.js'))
         .pipe(gulp.dest('dist'));
 });

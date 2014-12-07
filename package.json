@@ -21,7 +21,7 @@
   "homepage": "https://github.com/kuu/gulp-rejs",
   "dependencies": {
     "gulp-util": "^3.0.1",
-    "rejs": "0.0.4",
+    "rejs": "^0.0.4",
     "through2": "^0.6.3"
   },
   "devDependencies": {

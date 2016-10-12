@@ -20,14 +20,12 @@
   },
   "homepage": "https://github.com/kuu/gulp-rejs",
   "dependencies": {
-    "chai": "^3.5.0",
     "gulp-util": "^3.0.1",
-    "mocha": "^3.0.2",
     "rejs": "^0.8.1",
     "through2": "^2.0.1"
   },
   "devDependencies": {
-    "chai": "^1.10.0",
-    "mocha": "^2.0.1"
+    "chai": "^3.5.0",
+    "mocha": "^3.0.2"
   }
 }

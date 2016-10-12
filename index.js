@@ -10,7 +10,10 @@ module.exports = function (filePath, options) {
   var firstFile = null,
       fileName = filePath,
       blobs = {},
+      errors = [],
       resolver = null;
+
+  var mVerbosity = 0;
 
   if (!filePath) {
     throw new PluginError('gulp-rejs', 'Missing file option');
@@ -23,6 +26,34 @@ module.exports = function (filePath, options) {
     options.newLine = util.linefeed;
   }
 
+  function readSource(pKey) {
+    return blobs[pKey];
+  }
+
+  if (typeof options.readSource !== 'function') {
+    options.readSource = readSource;
+  }
+
+  if (typeof options.verbosity !== 'number') {
+    options.verbosity = mVerbosity;
+  } else {
+    mVerbosity = options.verbosity;
+  }
+
+  function log(pVerbosity) {
+    if (mVerbosity >= pVerbosity) {
+      util.log.apply(util, Array.prototype.slice.call(arguments, 1));
+    }
+  }
+
+  if (typeof options.log !== 'function') {
+    options.log = log;
+  }
+
+  if (typeof options.globalClosureReferences !== 'object') {
+    options.globalClosureReferences = ['window'];
+  }
+
   if (typeof filePath !== 'string') {
     if (typeof filePath.path !== 'string') {
       throw new PluginError('gulp-rejs', 'Missing path in file options');
@@ -31,7 +62,7 @@ module.exports = function (filePath, options) {
     firstFile = new File(filePath);
   }
 
-  resolver = new rejs.Resolver(options || {});
+  resolver = new rejs.Resolver(options);
 
   function bufferContents(file, enc, cb) {
 
@@ -49,16 +80,44 @@ module.exports = function (filePath, options) {
     }
 
     blobs[file.path] = file.contents.toString();
+
+    try {
+      resolver.add(file.path);
+    } catch (e) {
+      errors.push({
+        key: file.path,
+        error: e
+      });
+    }
+
     cb();
   }
 
   function endStream(cb) {
+    if (errors.length) {
+      var errorMessages = [];
+
+      errors.forEach(function(pError) {
+        errorMessages.push('\n' + pError.key + ':');
+        errorMessages.push(pError.error);
+
+        if (mVerbosity > 1 && pError.error.stack) {
+          errorMessages.push(pError.error.stack);
+        }
+      });
+
+      cb(new PluginError('gulp-rejs', errorMessages.join('\n')));
+
+      return;
+    }
 
     var buffer = new Buffer(0),
-        sortedFiles = resolver.resolve(blobs),
+        sortedFiles = resolver.resolve(),
         joinedFile;
 
     if (firstFile) {
+      resolver.log(2, sortedFiles.join('\n'));
+
       for (var i = 0, il = sortedFiles.length; i < il; i++) {
         buffer = Buffer.concat([
           buffer,

@@ -1,6 +1,6 @@
 {
   "name": "gulp-rejs",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Gulp support for ReJS, a tool for concatenating JavaScript files based on the dependencies between them.",
   "main": "index.js",
   "scripts": {
@@ -21,11 +21,11 @@
   "homepage": "https://github.com/kuu/gulp-rejs",
   "dependencies": {
     "gulp-util": "^3.0.1",
-    "rejs": "^0.0.4",
-    "through2": "^0.6.3"
+    "rejs": "^0.8.1",
+    "through2": "^2.0.1"
   },
   "devDependencies": {
-    "chai": "^1.10.0",
-    "mocha": "^2.0.1"
+    "chai": "^3.5.0",
+    "mocha": "^3.0.2"
   }
 }
